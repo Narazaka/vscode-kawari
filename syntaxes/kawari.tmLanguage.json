@@ -1,0 +1,405 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "華和梨",
+    "scopeName": "source.kawari",
+    "fileTypes": [
+        "kis", "dic"
+    ],
+    "patterns": [
+        {
+            "include": "#block-common"
+        },
+        {
+            "include": "#crypt-dict-block"
+        },
+        {
+            "include": "#dictionary"
+        }
+    ],
+    "repository": {
+        "block-common": {
+            "patterns": [
+                {
+                    "include": "#line-comment"
+                },
+                {
+                    "include": "#block-comment"
+                },
+                {
+                    "include": "#dict-block"
+                },
+                {
+                    "include": "#kis-block"
+                }
+            ]
+        },
+        "line-comment": {
+            "patterns": [
+                {
+                    "begin": "(^[ \\t]*)(?=#)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "punctuation.whitespace.comment.leading.kawari"
+                        }
+                    },
+                    "end": "(?!\\G)",
+                    "patterns": [
+                        {
+                            "begin": "#",
+                            "beginCaptures": {
+                                "0": {
+                                    "name": "punctuation.definition.comment.kawari"
+                                }
+                            },
+                            "end": "\\n",
+                            "name": "comment.line.number-sign.kawari"
+                        }
+                    ]
+                }
+            ]
+        },
+        "block-comment": {
+            "patterns": [
+                {
+                    "name": "comment.block.documentation.kawari",
+                    "begin": "^:rem$",
+                    "end": "^:endrem$",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.begin.kawari"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.end.kawari"
+                        }
+                    }
+                }
+            ]
+        },
+        "dict-block": {
+            "patterns": [
+                {
+                    "begin": "^=dict$",
+                    "end": "^=end$",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "storage.type.dict.begin.kawari"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "storage.type.dict.end.kawari"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#block-common"
+                        },
+                        {
+                            "include": "#crypt-dict-block"
+                        },
+                        {
+                            "include": "#dictionary"
+                        }
+                    ]
+                }
+            ]
+        },
+        "kis-block": {
+            "patterns": [
+                {
+                    "begin": "^=kis$",
+                    "end": "^=end$",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "storage.type.kis.begin.kawari"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "storage.type.kis.end.kawari"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#block-common"
+                        },
+                        {
+                            "include": "#crypt-kis-block"
+                        },
+                        {
+                            "include": "#kis"
+                        }
+                    ]
+                }
+            ]
+        },
+        "crypt-dict-block": {
+            "patterns": [
+                {
+                    "begin": "^:crypt$",
+                    "end": "^:endcrypt$",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "storage.type.crypt.begin.kawari"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "storage.type.crypt.end.kawari"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#block-common"
+                        },
+                        {
+                            "include": "#dictionary"
+                        }
+                    ]
+                }
+            ]
+        },
+        "crypt-kis-block": {
+            "patterns": [
+                {
+                    "begin": "^:crypt$",
+                    "end": "^:endcrypt$",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "storage.type.crypt.begin.kawari"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "storage.type.crypt.end.kawari"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#block-common"
+                        },
+                        {
+                            "include": "#kis"
+                        }
+                    ]
+                }
+            ]
+        },
+        "dictionary": {
+            "patterns": [
+                {
+					"begin": "(^[^ \\t!\"#$%&'()*+,\\-/:;<=>@\\[\\\\\\]^`{|}~][^!\"#$%&'()*+\\-/:;<=>\\[\\\\\\]^`{|}~]*)\\s*(:)\\s*",
+					"end": "\\n",
+					"beginCaptures": {
+						"1": {
+							"patterns": [
+								{
+									"include": "#permanent_entry_name_definition"
+								},
+								{
+									"name": "punctuation.whitespace.entry.between.kawari",
+									"match": ","
+								},
+								{
+									"name": "punctuation.whitespace.entry.between.kawari",
+									"match": "[ \\t]+"
+								}
+							]
+						},
+						"2": {
+							"name": "markup.bold"
+						}
+					},
+					"patterns": [
+						{
+							"begin": "\\(",
+							"end": "\\)",
+							"patterns": [
+								{
+									"include": "#entry_content"
+								}
+							]
+						},
+						{
+							"include": "#entry_content"
+						}
+					]
+                }
+            ]
+        },
+        "kis": {
+            "patterns": [
+                {
+					"name": "constant.numeric",
+                    "match": "\\b[0-9]+\\b"
+                },
+				{
+					"include": "#bracket"
+				},
+				{
+					"include": "#kis_keywords"
+				}
+            ]
+		},
+		"entry_content": {
+			"patterns": [
+				{
+					"include": "#bracket"
+				}
+			]
+		},
+		"entry_name": {
+			"patterns": [
+				{
+					"include": "#permanent_entry_name"
+				},
+				{
+					"include": "#temporary_entry_name"
+				}
+			]
+		},
+        "permanent_entry_name_definition": {
+            "patterns": [
+                {
+					"name": "entity.name.tag.entry.kawari",
+                    "match": "[^ \\t!\"#$%&'()*+,\\-/:;<=>@\\[\\\\\\]^`{|}~][^ \\t!\"#$%&'()*+,\\-/:;<=>\\[\\\\\\]^`{|}~]*"
+                }
+            ]
+        },
+        "permanent_entry_name": {
+            "patterns": [
+                {
+					"name": "variable.name.entry.kawari",
+                    "match": "[^ \\t!\"#$%&'()*+,\\-/:;<=>@\\[\\\\\\]^`{|}~][^ \\t!\"#$%&'()*+,\\-/:;<=>\\[\\\\\\]^`{|}~]*"
+                }
+            ]
+        },
+        "temporary_entry_name": {
+            "patterns": [
+                {
+					"name": "variable.name.entry.kawari",
+					"match": "(@)[^ \\t!\"#$%&'()*+,\\-/:;<=>\\[\\\\\\]^`{|}~]+",
+					"captures": {
+						"1": {
+							"name": "storage.modifier"
+						}
+					}
+                }
+            ]
+		},
+		"bracket": {
+			"patterns": [
+				{
+					"include": "#call_bracket"
+				},
+				{
+					"include": "#expression_bracket"
+				},
+				{
+					"include": "#exec_bracket"
+				}
+			]
+		},
+		"call_bracket": {
+			"patterns": [
+				{
+					"name": "markup.bold",
+					"match": "\\$\\{([0-9])\\}",
+					"captures": {
+						"1": {
+							"name": "constant.numeric"
+						}
+					}
+				},
+				{
+					"name": "markup.bold",
+					"begin": "\\$\\{",
+					"end": "\\}",
+					"patterns": [
+						{
+							"include": "#entry_name"
+						},
+						{
+							"include": "#operator"
+						},
+						{
+							"match": "[ \\t]+",
+							"name":	"punctuation.whitespace.entry_expression.kawari"
+						},
+						{
+							"match": ".",
+							"name": "invalid.illegal.entry_expression.kawari"
+						}
+					]
+				}
+			]
+		},
+		"expression_bracket": {
+			"patterns": [
+				{
+					"begin": "\\$\\[",
+					"end": "\\]",
+					"beginCaptures": {
+						"0": {
+							"name": "markup.bold"
+						}
+					},
+					"endCaptures": {
+						"0": {
+							"name": "markup.bold"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#entry_content"
+						},
+						{
+							"include": "#operator"
+						}
+					]
+				}
+			]
+		},
+		"exec_bracket": {
+			"patterns": [
+				{
+					"begin": "\\$\\(",
+					"end": "\\)",
+					"beginCaptures": {
+						"0": {
+							"name": "markup.bold"
+						}
+					},
+					"endCaptures": {
+						"0": {
+							"name": "markup.bold"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#kis"
+						}
+					]
+				}
+			]
+		},
+		"operator": {
+			"patterns": [
+				{
+					"match": "[!~|&^<=>+\\-*/%]|\\|\\||&&|[<>=!]=|[=!]~|\\*\\*",
+					"name":	"keyword.operator.entry_expression.kawari"
+				}
+			]
+		},
+		"kis_keywords": {
+			"patterns": [
+				{
+					"match": "\\b(?:if|foreach|loop|silent|until|while|break|continue|NULL|\\?|function|rmfunc|return|set|setstr|adddict|adddictstr|push|pushstr|unshift|unshiftstr|insert|insertstr|get|getcode|getrandom|pop|popcode|shift|shiftcode|clear|cleartree|size|find|rfind|copy|copytree|move|movetree|listsub|listtree|writeprotect|save|savecrypt|load|textload|textappend|textsave|readdir|cncpath|dirname|filename|isexist|isdir|isfile|dec|inc|length|match|rmatch|match_at|substr|char_at|sub|gsub|rsub|tr|reverse|tolower|toupper|chr|split|join|compare|SAORI|saoriregist|saorierase|saorilist|callsaori|callsaorix|communicate|matchall|echo|encode_entryname|escape|entry|entrycount|eval|urllist|wordcount|xargs|rccharset|date|mktime|getenv|help|logfile|loglevel|logprint|debugger|rand|srand|securitylevel|ver)\\b",
+					"name": "entity.name.function"
+				}
+			]
+		}
+    }
+}

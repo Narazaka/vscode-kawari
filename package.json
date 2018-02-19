@@ -1,0 +1,30 @@
+{
+    "name": "kawari",
+    "displayName": "Kawari",
+    "description": "Programmable Pseudo AI Kawari Extension",
+    "keywords": [
+        "kawari", "ukagaka", "shiori"
+    ],
+    "version": "0.0.1",
+    "publisher": "narazaka",
+    "engines": {
+        "vscode": "^1.0.0"
+    },
+    "license": "MIT",
+    "categories": [
+        "Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "kawari",
+            "aliases": ["華和梨", "kawari"],
+            "extensions": [".kis"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "kawari",
+            "scopeName": "source.kawari",
+            "path": "./syntaxes/kawari.tmLanguage.json"
+        }]
+    }
+}
