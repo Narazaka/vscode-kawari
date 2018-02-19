@@ -26,5 +26,9 @@
             "scopeName": "source.kawari",
             "path": "./syntaxes/kawari.tmLanguage.json"
         }]
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Narazaka/vscode-kawari.git"
     }
 }
